@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>LED Lights Control </title>
+  <meta charset="UTF-8">
+</head>
+
+<body>
+  <div> Current State: <br>
+    Power: <%= power %> <br>
+    Red: <%= red %> <br>
+    Green: <%= green %> <br>
+    Blue: <%= blue %> <br> <br> </div>
+
+  <form action = '/submit_action'>
+    On: <input type = "radio" value = "On" name = "power"> <br>
+    Off: <input type = "radio" value = "Off" name = "power"> <br>
+
+    <br>
+
+    Red: <input type = "number" value = "0" name = "red" min = "0" max = "255" style = "width: 15%"> <br>
+    Green: <input type = "number" value = "0" name = "green" min = "0" max = "255" style = "width: 15%"> <br>
+    Blue: <input type = "number" value = "0" name = "blue" min = "0" max = "255" style = "width: 15%"> <br>
+
+    <br>
+    <input type = "submit" value = "Submit">
+  </form>
+
+</body>
