@@ -1,4 +1,4 @@
-const 
+
 
  var controlPower = function(power)
   {
