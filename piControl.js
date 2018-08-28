@@ -1,27 +1,54 @@
+var Gpio = require('pigpio').Gpio;
 
+var ledRed = new Gpio(17, {mode:Gpio.OUTPUT});
+var ledGreen = new Gpio(22, {mode:Gpio.OUTPUT});
+var ledBlue = new Gpio(24, {mode:Gpio.OUTPUT});
 
  var controlPower = function(power)
   {
 
-      if(power == "On")
-        console.log('Pi is on');
+      if(power == "On"){
 
-      else
-      console.log('Pi is off');
+       		 console.log('Pi is on');
+		       ledRed.pwmWrite(255);
+		       ledGreen.pwmWrite(255);
+		       ledBlue.pwmWrite(255);
+
+	}
+
+      else {
+     		  console.log('Pi is off');
+		      ledRed.pwmWrite(0);
+		      ledGreen.pwmWrite(0);
+		      ledBlue.pwmWrite(0);
+	}
+
   }
 
   var controlColor = function(red, green, blue)
   {
 
-    console.log('Red: ' + red);
-    console.log('Green: ' + green);
-    console.log('Blue: ' + blue);
+	   console.log('Red: ' + red);
+   	 console.log('Green: ' + green);
+  	 console.log('Blue: ' + blue);
+	   ledRed.pwmWrite(red);
+	   ledGreen.pwmWrite(green);
+	   ledBlue.pwmWrite(blue);
 
   }
+
+  /*var blink = function();
+  {
+
+
+
+
+  }*/
 
 module.exports = {
 
   controlPower: controlPower,
-  controlColor: controlColor
+  controlColor: controlColor//,
+  //blink: blink
 
 };

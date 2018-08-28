@@ -46,7 +46,9 @@ app.get('/submit_action', function(request, response)
   blue = request.query['blue'];
 
   piControl.controlPower(power);
-  piControl.controlColor(red, green, blue);
+
+  if (power == "On" && (red != 0 || green != 0 || blue != 0))
+      piControl.controlColor(red, green, blue);
 
   response.redirect('/');
 });
