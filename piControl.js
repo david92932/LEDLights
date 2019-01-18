@@ -1,8 +1,8 @@
-var Gpio = require('pigpio').Gpio;
+var Gpio = require('onoff').Gpio;
 
-var ledRed = new Gpio(17, {mode:Gpio.OUTPUT});
-var ledGreen = new Gpio(22, {mode:Gpio.OUTPUT});
-var ledBlue = new Gpio(24, {mode:Gpio.OUTPUT});
+var ledRed = new Gpio(18, 'out');
+var ledGreen = new Gpio(20, 'out');
+var ledBlue = new Gpio(21, 'out');
 
  var controlPower = function(power)
   {
@@ -10,30 +10,42 @@ var ledBlue = new Gpio(24, {mode:Gpio.OUTPUT});
       if(power == "On"){
 
        		 console.log('Pi is on');
-		       ledRed.pwmWrite(255);
-		       ledGreen.pwmWrite(255);
-		       ledBlue.pwmWrite(255);
+			ledRed.writeSync(redValue);
+                       ledGreen.writeSync(greenValue);
+                       ledBlue.writeSync(blueValue);
 
 	}
 
       else {
      		  console.log('Pi is off');
-		      ledRed.pwmWrite(0);
-		      ledGreen.pwmWrite(0);
-		      ledBlue.pwmWrite(0);
+		      ledRed.writeSync(1);
+		      ledGreen.writeSync(1);
+		      ledBlue.writeSync(1);
 	}
 
   }
 
-  var controlColor = function(red, green, blue)
+  var controlColor = function(power, red, green, blue)
   {
+	
+	if(power == "On")
+	{
 
-	   console.log('Red: ' + red);
-   	 console.log('Green: ' + green);
-  	 console.log('Blue: ' + blue);
-	   ledRed.pwmWrite(red);
-	   ledGreen.pwmWrite(green);
-	   ledBlue.pwmWrite(blue);
+		ledRed.writeSync(red);
+		ledGreen.writeSync(green);
+		ledBlue.writeSync(blue);
+
+	}
+	   
+
+	else
+	{
+
+		ledRed.writeSync(1);
+		ledGreen.writeSync(1);
+		ledBlue.writeSync(1);
+		
+	}
 
   }
 

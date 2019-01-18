@@ -6,9 +6,17 @@ const ejs = require('ejs');
 const app = express();
 
 var power = 'Off';
-var red = 0;
-var green = 0;
-var blue = 0;
+var red;
+var green;
+var blue;
+
+var lastRed = "Off";
+var lastGreen = "Off";
+var lastBlue = "Off";
+
+var redInt = 1;
+var greenInt = 1;
+var blueInt = 1;
 
 //middleware/routing
 
@@ -19,9 +27,9 @@ app.get('/', function(request, response)
 {
 
   response.render('form.ejs', {power: power,
-                                red: red,
-                                green: green,
-                                blue: blue});
+                                red: lastRed,
+                                green: lastGreen,
+                                blue: lastBlue});
 
 });
 
@@ -34,21 +42,45 @@ app.get('/LEDLights', function(request, response)
 app.get('/submit_action', function(request, response)
 {
 
-  console.log('Power: ' + request.query['power']);
-  console.log('Red: ' + request.query['red']);
-  console.log('Green: ' + request.query['green']);
-  console.log('Blue: ' + request.query['blue']);
-
   //get radio buttons to behave correctly
   power = request.query['power'];
+
+	if(!(document.getElemenyById('power').checked))
+		power = "On";
+	
   red = request.query['red'];
+
+	if (!(document.getElementById('red').checked))
+		red = lastRed;
+	else lastRed = red;
+
   green = request.query['green'];
+	
+	if(green == "undefined")
+		green = lastGreen;
+	else lastGreen = green;
+
   blue = request.query['blue'];
+	
+	if(blue == "undefined")
+		blue = lastBlue;
+	else lastBlue = blue;
+console.log(power);
+console.log(red);
+console.log(green);
+console.log(blue);
+ // piControl.controlPower(power);
 
-  piControl.controlPower(power);
+  	if(red == "On") redInt = 0;
+	else redInt = 1;
 
-  if (power == "On" && (red != 0 || green != 0 || blue != 0))
-      piControl.controlColor(red, green, blue);
+	if (green == "On") greenInt = 0;
+	else greenInt = 1;
+
+	if(blue == "On") blueInt = 0;
+	else blueInt = 1; 
+
+      	piControl.controlColor(power, redInt, greenInt, blueInt);
 
   response.redirect('/');
 });
